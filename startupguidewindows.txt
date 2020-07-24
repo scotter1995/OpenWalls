@@ -1,0 +1,65 @@
+OpenWalls Startup Guide (Windows):
+
+At the bare minimum, you will need a Roblox account and Roblox Studio. You may also use a
+text editor or an IDE for editing your Lua code - this optional setup starts at line 46.
+
+1. Copy and paste the following URL into your browser: https://www.roblox.com/create
+2. On this website, click the gray "Start Creating" button, then click "Download Studio."
+3. When the download finishes, click on it to open the installer.
+4. When the installation finishes, Roblox Studio will start up. If you do not have a
+    Roblox account, click "sign up." A window will be opened in your browser, and you
+    will need to provide your birthday, a username, a password, and your gender.
+5. Log in with your Roblox username and password.
+6. On logging in, you'll be greeted with a bunch of templates. Double-click one of them,
+    though for a beginner, it's advised to use the Baseplate template.
+7. From the OpenWalls GitHub repository (https://github.com/scotter1995/OpenWalls), fork
+    and clone the repository to your machine. That way, you can access the necessary Lua
+    scripts.
+8. In Roblox Studio, click the "PLUGINS" ribbon, then click the "Plugins Folder" button.
+    This will open a Windows Explorer window where the game's plugins are stored.
+9. Open another Windows Explorer window and navigate to the directory in which OpenWalls
+    is locally stored. Click on this to view the available scripts.
+10. With both folders open in different windows, copy the scripts from the OpenWalls
+    folder into the Plugins folder.
+11. (Optional) On the left side of the Windows Explorer menu, you will
+    notice a "Quick access" entry with a blue star next to it. While in the Plugins
+    folder, right-click "Quick access" and click "Pin current folder to Quick access."
+    This makes the Plugins folder more accessible, which will help for the next step...
+12. In Roblox Studio, right-click on the Workspace folder, then click on "Insert from
+    File..." Navigate to the Plugins folder (the directory should be
+    C:\Users\<Your Username>\AppData\Local\Roblox\Plugins, though the shortcut discussed
+    in 11 will directly land you in that directory).
+13. In the bottom-right corner, you'll notice the drop-down menu is set to display Roblox
+    Model Files by default. Click on this and select "Scripts," which will display the
+    scripts in the Plugins folder.
+14. Open the scripts you added from the repository.
+15. Adding scripts must be done one at a time, so to add multiple scripts, you will need
+    to repeat steps 12 through 14 for each one.
+16. The scripts should now appear in the workspace. If you wish to edit them,
+    double-click on the script. This will open the script interface, which includes a
+    text editor and a run button.
+17. To run the script, while on this script's tab, click the run button.
+
+When writing a script, it's encouraged to have a reference on hand. We recommend perusing
+the Roblox API Reference Manual: https://developer.roblox.com/en-us/api-reference
+
+If you so wish to edit the script files in an alternate environment, such as a text
+editor or a Lua IDE, it is possible, but you may not have access to autocomplete for
+Roblox-specific events, properties, and functions. For this section, we will use Visual
+Studio Code as an example editor.
+
+1. Copy and paste the following URL into your browser: https://code.visualstudio.com/
+2. Click "Download for Windows."
+3. When the download finishes, click on it to open the installer.
+4. When the installation finishes, Visual Studio Code will start up. You will want to
+    download some extensions within Visual Studio Code's marketplace. On the left bar,
+    click on the Extensions tab (three adjacent squares and one separate square), then
+    search "Lua." From here, install a Lua language support extension.
+5. (Optional) Repeat step 4, but by installing a Lua debugger.
+6. (Optional) Repeat step 4, but by installing a Lua linter.
+7. Repeat step 4, but by searching "Roblox" and installing a Roblox API explorer or
+    autocompleter. You will need this if you want the autocompleting features provided
+    by Roblox Studio.
+8. To edit a script in Visual Studio Code, navigate to the Plugins folder however you
+    please, then right-click the script. Select "Open with...," and, when prompted, choose
+    Visual Studio Code, then click "OK."
