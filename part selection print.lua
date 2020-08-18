@@ -5,14 +5,14 @@ local deactivatingEvent = Instance.new("BindableEvent") --this is the event fire
 local ChangeHistoryService = game:GetService("ChangeHistoryService")
 local mouseCnList = {}-- the list of mouse movments
 local selectingMesh = false
-local applyingMesh = true
+local applyingMesh = false
 
 local screengui = Instance.new("ScreenGui", game:GetService("CoreGui"))
 screengui.Name = "TestGui"
 screengui.Enabled = false
 
 
-local toolbar = plugin:CreateToolbar("ResizeApply_0_9")
+local toolbar = plugin:CreateToolbar("ResizeApply_0_10")
 local toolbarbutton = toolbar:CreateButton("", "", "rbxassetid://5136300053") --the icon.png")
 
 
@@ -218,8 +218,11 @@ function GetTarget()
 	rayparams.FilterDescendantsInstances = ignore
 	rayparams.FilterType = Enum.RaycastFilterType.Blacklist
 	local rayresult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction*999, rayparams)
-	local hit = rayresult.Instance
-	local pos = rayresult.Position
+	local hit, pos
+	if rayresult then
+		hit = rayresult.Instance
+		pos = rayresult.Position
+	end
 	--[[local ray = Ray.new(mouse.UnitRay.Origin, mouse.UnitRay.Direction*999)
 	local ignore = {mTargetFilter}
 
@@ -227,7 +230,7 @@ function GetTarget()
 	local targetSurface;
 	if hit then
 		if hit:IsA("MeshPart") or hit:IsA("FileMesh") then
-			print(hit.TextureID)
+--			print(hit.TextureID)
 		end
 		local localDisp = hit.CFrame:vectorToObjectSpace(pos - hit.Position)
 		local halfSize = hit.Size / 2
@@ -257,14 +260,14 @@ function GetTarget()
 			smallest = math.abs(localDisp.z + halfSize.z)
 		end
 	end
-	print(targetSurface)
+--	print(targetSurface)
 	return hit, pos, targetSurface
 end
 
 
 function UpdateHover()
 	FixTargetFilter()
-	local hit, at, targetSurface = GetTarget()
+	local hit, at, targetSurface= GetTarget()
 	if hit and not hit.Locked then
 		ShowHoverFace(hit, targetSurface)
 	else
@@ -343,10 +346,42 @@ local function changeDisplayImg(objHit) --Need to test this
 		text.Text = textureid
 	end
 end
-	
 
 
+-------------TESTCODE----------------------------------
+function createMesh(SurfaceToApply)
+	local mesh = Instance.new("MeshPart", workspace)
+	local size, orien
+	if SurfaceToApply.Normal== Enum.NormalId.Top then
+		size = Vector3.new(SurfaceToApply.length,math.min,SurfaceToApply.width)
+		orien = CFrame.new(0,SurfaceToApply.height/2,0)
+	end
+	if SurfaceToApply.Normal== Enum.NormalId.Bottom then
+		size = Vector3.new(SurfaceToApply.length,math.min,SurfaceToApply.width)
+		orien = CFrame.new(0,-(SurfaceToApply.height/2),0)
+	end
+	if SurfaceToApply.Normal== Enum.NormalId.Front then
+		size = Vector3.new(SurfaceToApply.length,SurfaceToApply.height, math.min)
+		orien = CFrame.new(0,0,-(SurfaceToApply.width/2))
+	end
+	if SurfaceToApply.Normal== Enum.NormalId.Back then
+		size = Vector3.new(SurfaceToApply.length,SurfaceToApply.height, math.min)
+		orien = CFrame.new(0,0,SurfaceToApply.width/2)
+	end
+	if SurfaceToApply.Normal== Enum.NormalId.Left then
+		size = Vector3.new(math.min,SurfaceToApply.height, SurfaceToApply.width)
+		orien = CFrame.new(-(SurfaceToApply.length/2),0,0)
+	end
+	if SurfaceToApply.Normal== Enum.NormalId.Right then
+		size = Vector3.new(math.min,SurfaceToApply.height, SurfaceToApply.width)
+		orien = CFrame.new(SurfaceToApply.length/2,0,0)
+	end
+	mesh.Size = size
+	mesh.Position = Vector3.new(0,0,0)
+	mesh.CFrame = SurfaceToApply.Object.CFrame:ToWorldSpace(orien)
+end
 
+-------------------------------------------------------
 function MeshSelectApply()
 	if (selectingMesh) then
 		local hit, at, targetSurface = GetTarget()
@@ -362,14 +397,15 @@ function MeshSelectApply()
 	if (not selectingMesh) and (applyingMesh) then
 		local hit, at, targetSurface = GetTarget()
 		if hit and not hit.Locked then
-			mFaceB = {
+			local SurfaceToApply = {
 					Object = hit;
 					Normal = targetSurface;
+					length = hit.size.x;
+					height = hit.size.y;
+					width = hit.size.z
 			}
-			
+			createMesh(SurfaceToApply)
 		end
-			
-			
 	end
 end
 	
