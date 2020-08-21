@@ -6,6 +6,7 @@ local ChangeHistoryService = game:GetService("ChangeHistoryService")
 local mouseCnList = {}-- the list of mouse movments
 local selectingMesh = false
 local applyingMesh = false
+local mesh = nil
 
 local screengui = Instance.new("ScreenGui", game:GetService("CoreGui"))
 screengui.Name = "TestGui"
@@ -349,36 +350,56 @@ end
 
 
 -------------TESTCODE----------------------------------
-function createMesh(SurfaceToApply)
-	local mesh = Instance.new("MeshPart", workspace)
-	local size, orien
+function createMesh(SurfaceToApply, mesh)
+	local copy
+	if mesh then
+		copy = mesh:Clone()
+		copy.Parent = mesh.Parent
+	else 
+		copy = Instance.new("MeshPart", workspace)
+	end
+	local size, orien, rotation
 	if SurfaceToApply.Normal== Enum.NormalId.Top then
 		size = Vector3.new(SurfaceToApply.length,math.min,SurfaceToApply.width)
 		orien = CFrame.new(0,SurfaceToApply.height/2,0)
+		--rotation = Vector3.new(0,0,0)
+		rotation = CFrame.Angles(0,0,0)
 	end
 	if SurfaceToApply.Normal== Enum.NormalId.Bottom then
 		size = Vector3.new(SurfaceToApply.length,math.min,SurfaceToApply.width)
 		orien = CFrame.new(0,-(SurfaceToApply.height/2),0)
+		--rotation = Vector3.new(180,0,0)
+		rotation = CFrame.Angles(math.rad(180),0,0)
 	end
 	if SurfaceToApply.Normal== Enum.NormalId.Front then
-		size = Vector3.new(SurfaceToApply.length,SurfaceToApply.height, math.min)
+		size = Vector3.new(SurfaceToApply.length,math.min,SurfaceToApply.height)
 		orien = CFrame.new(0,0,-(SurfaceToApply.width/2))
+		--rotation = Vector3.new(90,0,0)
+		rotation = CFrame.Angles(math.rad(-90),0,0)
 	end
 	if SurfaceToApply.Normal== Enum.NormalId.Back then
-		size = Vector3.new(SurfaceToApply.length,SurfaceToApply.height, math.min)
+		size = Vector3.new(SurfaceToApply.length, math.min, SurfaceToApply.height)
 		orien = CFrame.new(0,0,SurfaceToApply.width/2)
+		--rotation = Vector3.new(-90,0,0)
+		rotation = CFrame.Angles(math.rad(90),0,0)
 	end
 	if SurfaceToApply.Normal== Enum.NormalId.Left then
-		size = Vector3.new(math.min,SurfaceToApply.height, SurfaceToApply.width)
+		size = Vector3.new(SurfaceToApply.height,math.min, SurfaceToApply.width)
 		orien = CFrame.new(-(SurfaceToApply.length/2),0,0)
+		--rotation = Vector3.new(0,0,90)
+		rotation = CFrame.Angles(0,0,math.rad(90))
 	end
 	if SurfaceToApply.Normal== Enum.NormalId.Right then
-		size = Vector3.new(math.min,SurfaceToApply.height, SurfaceToApply.width)
+		size = Vector3.new(SurfaceToApply.height,math.min, SurfaceToApply.width)
 		orien = CFrame.new(SurfaceToApply.length/2,0,0)
+		--rotation = Vector3.new(0,0,-90)
+		rotation = CFrame.Angles(0,0,math.rad(-90))
 	end
-	mesh.Size = size
-	mesh.Position = Vector3.new(0,0,0)
-	mesh.CFrame = SurfaceToApply.Object.CFrame:ToWorldSpace(orien)
+	copy.Size = size
+	copy.Position = Vector3.new(0,0,0)
+	copy.CFrame = SurfaceToApply.Object.CFrame:ToWorldSpace(orien)
+	--copy.Orientation = copy.Orientation + rotation
+	copy.CFrame = copy.CFrame * rotation
 end
 
 -------------------------------------------------------
@@ -390,7 +411,7 @@ function MeshSelectApply()
 					Normal = targetSurface;
 		}
 		changeDisplayImg(MeshSelected.Object)
-
+		mesh = hit
 		--assign the mesh to use
 		--update gui
 	end
@@ -404,7 +425,7 @@ function MeshSelectApply()
 					height = hit.size.y;
 					width = hit.size.z
 			}
-			createMesh(SurfaceToApply)
+			createMesh(SurfaceToApply, mesh)
 		end
 	end
 end
