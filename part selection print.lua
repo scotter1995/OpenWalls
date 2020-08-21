@@ -13,8 +13,8 @@ screengui.Name = "TestGui"
 screengui.Enabled = false
 
 
-local toolbar = plugin:CreateToolbar("ResizeApply_0_10")
-local toolbarbutton = toolbar:CreateButton("", "", "rbxassetid://5136300053") --the icon.png")
+local toolbar = plugin:CreateToolbar("OpenWalls 1.0 (psp)")
+local toolbarbutton = toolbar:CreateButton("", "Start OpenWalls", "rbxassetid://5136300053") --the icon.png")
 
 
 toolbarbutton.Click:connect(function()
