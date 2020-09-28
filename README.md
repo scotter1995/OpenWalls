@@ -8,6 +8,7 @@ written in Lua and targeted at game developers and script developers alike.
 This repository contains the code for the OpenWalls project. Documentation for this
 project, including a startup guide, a usage guide, and a technology journal, is
 available in the wiki.
+You can download it here https://www.roblox.com/library/5655291774/ResizeApply-Alpha
 
 Licensing: 
 OpenWalls is licensed under the MIT License, which is available under LICENSE.
